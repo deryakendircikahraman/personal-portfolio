@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { getGitHubStats } from '@/lib/github'
+import { getGitHubStats, getContributionData } from '@/lib/github'
 
 interface GitHubStats {
   publicRepos: number
@@ -11,24 +11,55 @@ interface GitHubStats {
   profileUrl: string
 }
 
+interface Contribution {
+  date: string
+  count: number
+}
+
 export function GitHubActivity() {
   const [stats, setStats] = useState<GitHubStats | null>(null)
+  const [contributions, setContributions] = useState<Contribution[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function fetchStats() {
+    async function fetchData() {
       try {
-        const githubStats = await getGitHubStats('deryakendircikahraman')
+        const [githubStats, contributionData] = await Promise.all([
+          getGitHubStats('deryakendircikahraman'),
+          getContributionData('deryakendircikahraman')
+        ])
+        
         setStats(githubStats)
+        setContributions(contributionData)
       } catch (error) {
-        console.error('Error fetching GitHub stats:', error)
+        console.error('Error fetching GitHub data:', error)
       } finally {
         setLoading(false)
       }
     }
 
-    fetchStats()
+    fetchData()
   }, [])
+
+  const getContributionColor = (count: number) => {
+    if (count === 0) return 'bg-slate-100'
+    if (count <= 2) return 'bg-green-200'
+    if (count <= 4) return 'bg-green-400'
+    return 'bg-green-600'
+  }
+
+  const getContributionTooltip = (date: string, count: number) => {
+    const formattedDate = new Date(date).toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+    
+    if (count === 0) return `${formattedDate}: No contributions`
+    if (count === 1) return `${formattedDate}: 1 contribution`
+    return `${formattedDate}: ${count} contributions`
+  }
 
   if (loading) {
     return (
@@ -48,6 +79,14 @@ export function GitHubActivity() {
                 <div className="h-4 bg-slate-200 rounded w-16 mx-auto"></div>
               </div>
             ))}
+          </div>
+          <div className="space-y-2">
+            <div className="h-4 bg-slate-200 rounded w-24"></div>
+            <div className="grid grid-cols-7 gap-1">
+              {Array.from({ length: 49 }).map((_, i) => (
+                <div key={i} className="w-3 h-3 bg-slate-200 rounded-sm"></div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -90,31 +129,34 @@ export function GitHubActivity() {
           </div>
         </div>
 
-        {/* Recent Activity */}
+        {/* Contribution Graph */}
         <div className="space-y-4">
-          <h4 className="font-semibold text-slate-900">Recent Activity</h4>
-          <div className="space-y-3">
-            <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <div className="flex-1">
-                <div className="text-sm font-medium text-slate-900">Updated personal-portfolio</div>
-                <div className="text-xs text-slate-500">2 hours ago</div>
+          <div className="flex items-center justify-between">
+            <h4 className="font-semibold text-slate-900">Contribution Activity</h4>
+            <div className="flex items-center gap-2 text-xs text-slate-500">
+              <span>Less</span>
+              <div className="flex gap-1">
+                <div className="w-3 h-3 bg-slate-100 rounded-sm"></div>
+                <div className="w-3 h-3 bg-green-200 rounded-sm"></div>
+                <div className="w-3 h-3 bg-green-400 rounded-sm"></div>
+                <div className="w-3 h-3 bg-green-600 rounded-sm"></div>
               </div>
+              <span>More</span>
             </div>
-            <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-              <div className="flex-1">
-                <div className="text-sm font-medium text-slate-900">Pushed to backspace-coding-agent</div>
-                <div className="text-xs text-slate-500">1 day ago</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-              <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-              <div className="flex-1">
-                <div className="text-sm font-medium text-slate-900">Starred aven-ai-support</div>
-                <div className="text-xs text-slate-500">3 days ago</div>
-              </div>
-            </div>
+          </div>
+          
+          <div className="grid grid-cols-7 gap-1">
+            {contributions.map((contribution, index) => (
+              <div
+                key={index}
+                className={`w-3 h-3 rounded-sm transition-all duration-200 hover:scale-125 cursor-pointer ${getContributionColor(contribution.count)}`}
+                title={getContributionTooltip(contribution.date, contribution.count)}
+              />
+            ))}
+          </div>
+          
+          <div className="text-xs text-slate-500 text-center">
+            Last 7 weeks of activity
           </div>
         </div>
 

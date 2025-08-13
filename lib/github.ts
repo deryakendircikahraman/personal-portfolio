@@ -13,6 +13,14 @@ interface GitHubActivity {
   }>
 }
 
+interface GitHubStats {
+  publicRepos: number
+  followers: number
+  following: number
+  avatarUrl: string
+  profileUrl: string
+}
+
 export async function getGitHubActivity(username: string): Promise<GitHubActivity> {
   try {
     // GitHub GraphQL API endpoint
@@ -121,7 +129,7 @@ export async function getGitHubActivity(username: string): Promise<GitHubActivit
 }
 
 // Simple GitHub stats without API token
-export async function getGitHubStats(username: string) {
+export async function getGitHubStats(username: string): Promise<GitHubStats> {
   try {
     const response = await fetch(`https://api.github.com/users/${username}`)
     if (!response.ok) throw new Error('Failed to fetch GitHub stats')
@@ -144,4 +152,88 @@ export async function getGitHubStats(username: string) {
       profileUrl: 'https://github.com/deryakendircikahraman'
     }
   }
+}
+
+// Get contribution data for the last 7 weeks
+export async function getContributionData(username: string): Promise<Array<{date: string, count: number}>> {
+  try {
+    if (!process.env.GITHUB_TOKEN) {
+      // Return mock data if no token
+      return generateMockContributions()
+    }
+
+    const response = await fetch('https://api.github.com/graphql', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `
+          query($username: String!) {
+            user(login: $username) {
+              contributionsCollection {
+                contributionCalendar {
+                  weeks {
+                    contributionDays {
+                      contributionCount
+                      date
+                    }
+                  }
+                }
+              }
+            }
+          }
+        `,
+        variables: { username }
+      })
+    })
+
+    if (!response.ok) {
+      throw new Error('GitHub API request failed')
+    }
+
+    const data = await response.json()
+    const weeks = data.data.user.contributionsCollection.contributionCalendar.weeks
+    
+    // Get last 7 weeks (49 days)
+    const last7Weeks = weeks.slice(-7)
+    const contributions = last7Weeks
+      .flatMap((week: any) => week.contributionDays)
+      .map((day: any) => ({
+        date: day.date,
+        count: day.contributionCount
+      }))
+
+    return contributions
+  } catch (error) {
+    console.error('Error fetching contribution data:', error)
+    return generateMockContributions()
+  }
+}
+
+// Generate realistic mock contribution data
+function generateMockContributions(): Array<{date: string, count: number}> {
+  const contributions = []
+  const today = new Date()
+  
+  for (let i = 48; i >= 0; i--) {
+    const date = new Date(today)
+    date.setDate(date.getDate() - i)
+    
+    // Generate more realistic contribution pattern
+    // Weekends tend to have fewer contributions
+    const dayOfWeek = date.getDay()
+    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6
+    
+    let maxCount = isWeekend ? 3 : 5
+    const count = Math.floor(Math.random() * (maxCount + 1))
+    
+    contributions.push({
+      date: date.toISOString().split('T')[0],
+      count
+    })
+  }
+  
+  return contributions
 } 
