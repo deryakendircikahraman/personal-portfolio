@@ -52,7 +52,7 @@ export function ContactStrip() {
           {/* Quick Stats */}
           <div className="grid grid-cols-3 gap-4 pt-6">
             <div className="text-center">
-              <div className="text-2xl font-bold text-white">3+</div>
+              <div className="text-2xl font-bold text-white">6+</div>
               <div className="text-sm text-blue-100">Years Experience</div>
             </div>
             <div className="text-center">
