@@ -14,7 +14,7 @@ export function ContactStrip() {
 
       <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up" style={{animationDelay: '0.2s'}}>
         <Link
-          href="mailto:derya@example.com"
+          href="mailto:deryakendircikahraman@gmail.com"
           className="group bg-white text-blue-700 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/20 hover:shadow-xl hover:-translate-y-1 transform active:scale-95"
         >
           <span className="flex items-center gap-2">

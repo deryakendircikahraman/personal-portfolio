@@ -130,7 +130,7 @@ export default function ProjectsPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="mailto:hello@deryakendirci.com"
+                href="mailto:deryakendircikahraman@gmail.com"
                 className="btn-primary"
               >
                 Get in Touch
