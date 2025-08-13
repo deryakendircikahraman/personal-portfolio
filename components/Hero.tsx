@@ -14,7 +14,7 @@ export function Hero() {
         {/* Enhanced Ribbon Chip */}
         <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-50 to-slate-50 text-blue-700 rounded-2xl text-sm font-semibold border border-blue-200 shadow-lg backdrop-blur-sm animate-fade-in-down">
           <span className="w-3 h-3 bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full mr-3 animate-pulse"></span>
-          Open to Frontend / Full-Stack roles · Bay Area (Hybrid/Onsite)
+          Open to Full-Stack roles · Bay Area
         </div>
 
         {/* Enhanced Main Content */}
@@ -24,11 +24,15 @@ export function Hero() {
           </h1>
 
           <h2 className="text-2xl lg:text-3xl font-semibold text-blue-700 animate-fade-in-up" style={{animationDelay: '0.1s'}}>
-            Software Engineer — Full-Stack & AI
+            Full-Stack Software Engineer
           </h2>
 
           <p className="text-lg lg:text-xl text-slate-600 max-w-4xl leading-relaxed animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-            I'm a software engineer who turns fuzzy ideas into fast, accessible products. I build React/Next.js + TypeScript front ends with clean APIs (Node/FastAPI) and ship AI features like RAG and voice/chat. 6+ years in fintech, focused on reliability, a11y, and performance.
+            I'm a full-stack software engineer who turns messy ideas into simple, fast products. In banking/fintech (6+ years), I shipped C#/.NET + XAML and React.js apps, designed RESTful APIs, and worked across microservices. I'm now deepening Python, React, and TypeScript and building practical AI features—RAG search and voice/chat assistants—using FastAPI/Node on the API side.
+          </p>
+
+          <p className="text-base lg:text-lg text-slate-500 max-w-4xl leading-relaxed animate-fade-in-up" style={{animationDelay: '0.25s'}}>
+            When I'm not coding, I'm solving LeetCode in Python, crafting wooden miniature houses, camping, and hanging out with my parrots.
           </p>
         </div>
 
@@ -48,7 +52,7 @@ export function Hero() {
             </span>
           </Link>
           <Link
-            href="mailto:derya@example.com"
+            href="mailto:deryakendircikahraman@gmail.com"
             className="btn-secondary group"
           >
             <span className="flex items-center gap-2">
@@ -68,7 +72,7 @@ export function Hero() {
             {!imageError ? (
               <Image
                 src="/profile.jpeg"
-                alt="Derya Kendirci - Software Engineer"
+                alt="Derya Kendirci - Full-Stack Software Engineer"
                 width={192}
                 height={192}
                 className="w-full h-full object-cover"
