@@ -153,8 +153,8 @@ export function GitHubActivity() {
             ))}
           </div>
           
-          {/* Contribution Grid - GitHub Style with Grid Lines */}
-          <div className="grid grid-cols-7 gap-1 border border-[#d0d7de] rounded-sm p-1 bg-[#f6f8fa]">
+          {/* Contribution Grid - GitHub Style with Grid Lines (No Background) */}
+          <div className="grid grid-cols-7 gap-1 border border-[#d0d7de] rounded-sm p-1">
             {contributions.map((contribution, index) => (
               <div
                 key={index}
