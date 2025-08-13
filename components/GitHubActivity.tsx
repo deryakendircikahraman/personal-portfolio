@@ -42,7 +42,7 @@ export function GitHubActivity() {
   }, [])
 
   const getContributionColor = (count: number) => {
-    if (count === 0) return 'bg-[#ebedf0]'
+    if (count === 0) return 'bg-[#f6f8fa]' // GitHub'ın commit olmayan günler rengi
     if (count <= 2) return 'bg-[#9be9a8]'
     if (count <= 4) return 'bg-[#40c463]'
     if (count <= 6) return 'bg-[#30a14e]'
@@ -136,7 +136,7 @@ export function GitHubActivity() {
             <div className="flex items-center gap-2 text-xs text-[#656d76]">
               <span>Less</span>
               <div className="flex gap-1">
-                <div className="w-3 h-3 bg-[#ebedf0] rounded-sm border border-[#d0d7de]"></div>
+                <div className="w-3 h-3 bg-[#f6f8fa] rounded-sm border border-[#d0d7de]"></div>
                 <div className="w-3 h-3 bg-[#9be9a8] rounded-sm border border-[#d0d7de]"></div>
                 <div className="w-3 h-3 bg-[#40c463] rounded-sm border border-[#d0d7de]"></div>
                 <div className="w-3 h-3 bg-[#30a14e] rounded-sm border border-[#d0d7de]"></div>
