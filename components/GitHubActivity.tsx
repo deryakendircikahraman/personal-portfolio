@@ -136,11 +136,11 @@ export function GitHubActivity() {
             <div className="flex items-center gap-2 text-xs text-[#656d76]">
               <span>Less</span>
               <div className="flex gap-1">
-                <div className="w-3 h-3 bg-[#ebedf0] rounded-sm"></div>
-                <div className="w-3 h-3 bg-[#9be9a8] rounded-sm"></div>
-                <div className="w-3 h-3 bg-[#40c463] rounded-sm"></div>
-                <div className="w-3 h-3 bg-[#30a14e] rounded-sm"></div>
-                <div className="w-3 h-3 bg-[#216e39] rounded-sm"></div>
+                <div className="w-3 h-3 bg-[#ebedf0] rounded-sm border border-[#d0d7de]"></div>
+                <div className="w-3 h-3 bg-[#9be9a8] rounded-sm border border-[#d0d7de]"></div>
+                <div className="w-3 h-3 bg-[#40c463] rounded-sm border border-[#d0d7de]"></div>
+                <div className="w-3 h-3 bg-[#30a14e] rounded-sm border border-[#d0d7de]"></div>
+                <div className="w-3 h-3 bg-[#216e39] rounded-sm border border-[#d0d7de]"></div>
               </div>
               <span>More</span>
             </div>
@@ -153,12 +153,12 @@ export function GitHubActivity() {
             ))}
           </div>
           
-          {/* Contribution Grid - GitHub Style (No Borders) */}
-          <div className="grid grid-cols-7 gap-1">
+          {/* Contribution Grid - GitHub Style with Grid Lines */}
+          <div className="grid grid-cols-7 gap-1 border border-[#d0d7de] rounded-sm p-1 bg-[#f6f8fa]">
             {contributions.map((contribution, index) => (
               <div
                 key={index}
-                className={`w-3 h-3 rounded-sm transition-all duration-200 hover:scale-110 cursor-pointer ${getContributionColor(contribution.count)}`}
+                className={`w-3 h-3 rounded-sm transition-all duration-200 hover:scale-110 cursor-pointer border border-[#d0d7de] ${getContributionColor(contribution.count)}`}
                 title={getContributionTooltip(contribution.date, contribution.count)}
               />
             ))}
