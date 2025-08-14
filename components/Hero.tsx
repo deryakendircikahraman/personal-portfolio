@@ -75,7 +75,7 @@ export function Hero() {
           <div className="w-48 h-48 rounded-full overflow-hidden shadow-inner">
             {!imageError ? (
               <Image
-                src="/profile.jpeg"
+                src="/profile.jpg"
                 alt="Derya Kendirci - Full-Stack Software Engineer"
                 width={192}
                 height={192}
