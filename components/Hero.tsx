@@ -82,6 +82,7 @@ export function Hero() {
                 className="w-full h-full object-cover"
                 priority
                 onError={() => setImageError(true)}
+                unoptimized
               />
             ) : (
               <div className="w-full h-full bg-gradient-to-br from-blue-100 via-blue-200 to-slate-300 flex items-center justify-center">
