@@ -14,7 +14,7 @@ export function Hero() {
         {/* Enhanced Ribbon Chip */}
         <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-50 to-slate-50 text-blue-700 rounded-2xl text-sm font-semibold border border-blue-200 shadow-lg backdrop-blur-sm animate-fade-in-down">
           <span className="w-3 h-3 bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full mr-3 animate-pulse"></span>
-          Open to Full-Stack roles · Bay Area
+          Open to Full-Stack roles · Bay Area or Remote
         </div>
 
         {/* Enhanced Main Content */}
@@ -28,16 +28,20 @@ export function Hero() {
           </h2>
 
           <p className="text-lg lg:text-xl text-slate-600 max-w-4xl leading-relaxed animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-            I'm a full-stack software engineer who turns messy ideas into simple, fast products. In banking/fintech (6+ years), I shipped C#/.NET + XAML and React.js apps, designed RESTful APIs, and worked across microservices. I'm now deepening Python, React, and TypeScript and building practical AI features—RAG search and voice/chat assistants—using FastAPI/Node on the API side.
+            I'm a full stack software engineer who turns messy ideas into simple, fast products for real users. I spent over six years in banking and fintech building C# and .NET with XAML and React applications, designing REST APIs, and working across microservices.
           </p>
 
-          <p className="text-base lg:text-lg text-slate-500 max-w-4xl leading-relaxed animate-fade-in-up" style={{animationDelay: '0.25s'}}>
-            When I'm not coding, I'm solving LeetCode in Python, crafting wooden miniature houses, camping, and hanging out with my parrots.
+          <p className="text-lg lg:text-xl text-slate-600 max-w-4xl leading-relaxed animate-fade-in-up" style={{animationDelay: '0.25s'}}>
+            These days I'm sharpening Python, React, and TypeScript and I build practical AI features such as retrieval augmented generation search and voice and chat assistants with FastAPI or Node on the backend. I care about clean code, accessible interfaces, performance, and shipping measurable improvements.
+          </p>
+
+          <p className="text-base lg:text-lg text-slate-500 max-w-4xl leading-relaxed animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+            Outside work I solve LeetCode problems in Python, build wooden miniature houses, go camping, and hang out with my parrots.
           </p>
         </div>
 
         {/* Enhanced CTAs */}
-        <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+        <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
           <Link
             href="/Derya_Kendirci_Resume.pdf"
             className="btn-primary group"
@@ -66,7 +70,7 @@ export function Hero() {
       </div>
 
       {/* Enhanced Avatar with Real Profile Image or Fallback */}
-      <div className="flex-shrink-0 animate-fade-in-right" style={{animationDelay: '0.4s'}}>
+      <div className="flex-shrink-0 animate-fade-in-right" style={{animationDelay: '0.5s'}}>
         <div className="avatar-ring">
           <div className="w-48 h-48 rounded-full overflow-hidden shadow-inner">
             {!imageError ? (
