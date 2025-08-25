@@ -46,11 +46,11 @@ export function CaseStudies() {
   return (
     <div className="text-center space-y-12">
       <div className="space-y-6">
-        <h2 className="text-3xl lg:text-5xl font-bold text-gradient animate-fade-in-up">
+        <h2 className="text-2xl lg:text-4xl font-bold text-gradient animate-fade-in-up">
           Featured Projects
         </h2>
         <div className="divider"></div>
-        <p className="text-xl lg:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed animate-fade-in-up" style={{animationDelay: '0.1s'}}>
+        <p className="text-lg lg:text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed animate-fade-in-up" style={{animationDelay: '0.1s'}}>
           Recent projects showcasing my expertise in AI, full-stack development, and product engineering
         </p>
       </div>
@@ -76,10 +76,10 @@ export function CaseStudies() {
       <div className="animate-fade-in-up" style={{animationDelay: '0.5s'}}>
         <a
           href="/projects"
-          className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-blue-500/20"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-blue-500/20"
         >
           View All Projects
-          <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
         </a>

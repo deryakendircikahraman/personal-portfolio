@@ -12,10 +12,10 @@ export function ContactStrip() {
       {/* Contact Information */}
       <div className="text-center lg:text-left space-y-6 animate-fade-in-up" style={{animationDelay: '0.1s'}}>
         <div className="space-y-4">
-          <h2 className="text-3xl lg:text-4xl font-bold text-white">
+          <h2 className="text-2xl lg:text-3xl font-bold text-white">
             Let's Build Something Amazing
           </h2>
-          <p className="text-lg text-blue-100 max-w-2xl">
+          <p className="text-base text-blue-100 max-w-2xl">
             Ready to bring my expertise to your next project. Whether it's AI-powered applications, 
             full-stack development, or innovative solutions, I'm here to help.
           </p>
@@ -25,10 +25,10 @@ export function ContactStrip() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
             <Link
               href="mailto:deryakendircikahraman@gmail.com"
-              className="group bg-white text-blue-700 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/20 hover:shadow-xl hover:-translate-y-1 transform active:scale-95"
+              className="group bg-white text-blue-700 px-6 py-3 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/20 hover:shadow-xl hover:-translate-y-1 transform active:scale-95"
             >
               <span className="flex items-center gap-2">
-                <svg className="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 Get in Touch
@@ -36,12 +36,12 @@ export function ContactStrip() {
             </Link>
             <Link
               href="/resume"
-              className="group border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-blue-700 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/20 hover:shadow-xl hover:-translate-y-1 transform active:scale-95"
+              className="group border-2 border-white text-white px-6 py-3 rounded-xl font-semibold hover:bg-white hover:text-blue-700 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/20 hover:shadow-xl hover:-translate-y-1 transform active:scale-95"
               target="_blank"
               rel="noopener noreferrer"
             >
               <span className="flex items-center gap-2">
-                <svg className="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
                 Download Resume
@@ -52,16 +52,16 @@ export function ContactStrip() {
           {/* Quick Stats */}
           <div className="grid grid-cols-3 gap-4 pt-6">
             <div className="text-center">
-              <div className="text-2xl font-bold text-white">6+</div>
-              <div className="text-sm text-blue-100">Years Experience</div>
+              <div className="text-xl font-bold text-white">6+</div>
+              <div className="text-xs text-blue-100">Years Experience</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-white">15+</div>
-              <div className="text-sm text-blue-100">Projects Completed</div>
+              <div className="text-xl font-bold text-white">15+</div>
+              <div className="text-xs text-blue-100">Projects Completed</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-white">100%</div>
-              <div className="text-sm text-blue-100">Success Rate</div>
+              <div className="text-xl font-bold text-white">100%</div>
+              <div className="text-xs text-blue-100">Success Rate</div>
             </div>
           </div>
         </div>

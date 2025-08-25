@@ -26,11 +26,11 @@ export function ExperienceTimeline() {
   return (
     <div className="space-y-8">
       <div className="text-center space-y-4">
-        <h2 className="text-3xl lg:text-4xl font-bold text-gradient animate-fade-in-up">
+        <h2 className="text-2xl lg:text-3xl font-bold text-gradient animate-fade-in-up">
           Experience
         </h2>
         <div className="divider"></div>
-        <p className="text-lg lg:text-xl text-slate-600 max-w-4xl mx-auto animate-fade-in-up" style={{animationDelay: '0.1s'}}>
+        <p className="text-base lg:text-lg text-slate-600 max-w-4xl mx-auto animate-fade-in-up" style={{animationDelay: '0.1s'}}>
           6+ years building reliable, accessible, and high-performance applications in fintech
         </p>
       </div>
@@ -51,19 +51,19 @@ export function ExperienceTimeline() {
               <div className="flex-1 space-y-3">
                 <div className="space-y-2">
                   <div className="flex items-center gap-4">
-                    <h3 className="text-xl font-bold text-slate-900">
+                    <h3 className="text-lg font-bold text-slate-900">
                       {exp.title}
                     </h3>
                     <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-lg text-sm font-medium">
                       {exp.period}
                     </span>
                   </div>
-                  <p className="text-lg font-semibold text-slate-700">
+                  <p className="text-base font-semibold text-slate-700">
                     {exp.company}
                   </p>
                 </div>
                 
-                <p className="text-slate-600 leading-relaxed">
+                <p className="text-slate-600 leading-relaxed text-sm">
                   {exp.description}
                 </p>
                 
@@ -85,7 +85,7 @@ export function ExperienceTimeline() {
 
       {/* Tech Stack */}
       <div className="text-center space-y-6 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
-        <h3 className="text-xl font-bold text-slate-900">
+        <h3 className="text-lg font-bold text-slate-900">
           Tech Stack
         </h3>
         <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">

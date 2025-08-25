@@ -9,17 +9,17 @@ interface BlogCardProps {
 
 export function BlogCard({ title, date, summary, slug }: BlogCardProps) {
   return (
-    <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-slate-100 h-full flex flex-col">
-      <div className="space-y-4 flex-1">
+    <div className="bg-white rounded-xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-slate-100 h-full flex flex-col">
+      <div className="space-y-3 flex-1">
         {/* Header */}
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-xs text-slate-500">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
             {date}
           </div>
-          <h3 className="text-xl font-bold text-slate-900 line-clamp-2">
+          <h3 className="text-lg font-bold text-slate-900 line-clamp-2">
             {title}
           </h3>
         </div>
@@ -30,13 +30,13 @@ export function BlogCard({ title, date, summary, slug }: BlogCardProps) {
         </p>
 
         {/* Read More Link */}
-        <div className="pt-4 border-t border-slate-100 mt-auto">
+        <div className="pt-3 border-t border-slate-100 mt-auto">
           <Link
             href={`/blog/${slug}`}
             className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 font-medium text-sm transition-colors group"
           >
             Read More
-            <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3 h-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </Link>

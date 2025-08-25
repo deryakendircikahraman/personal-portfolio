@@ -1,6 +1,7 @@
-import { getBlogPost, getAllBlogSlugs } from '@/lib/sanity'
+import { getBlogPost, getAllBlogSlugs } from '@/lib/blog'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { ShareButton } from '@/components/ShareButton'
 
 interface BlogPostPageProps {
   params: {
@@ -10,9 +11,9 @@ interface BlogPostPageProps {
 
 export async function generateStaticParams() {
   try {
-    const slugs = await getAllBlogSlugs()
-    return slugs.map((post: { slug: string }) => ({
-      slug: post.slug,
+    const slugs = getAllBlogSlugs()
+    return slugs.map((slug: string) => ({
+      slug: slug,
     }))
   } catch (error) {
     console.error('Error generating static params:', error)
@@ -23,7 +24,7 @@ export async function generateStaticParams() {
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   let post
   try {
-    post = await getBlogPost(params.slug)
+    post = getBlogPost(params.slug)
   } catch (error) {
     console.error('Error fetching blog post:', error)
     notFound()
@@ -54,38 +55,47 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <header className="mb-12">
             <div className="space-y-4">
               <div className="flex items-center gap-4 text-sm text-slate-500">
-                <time dateTime={post.publishedAt}>
-                  {new Date(post.publishedAt).toLocaleDateString('en-US', {
+                <time dateTime={post.date}>
+                  {new Date(post.date).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric'
                   })}
                 </time>
-                {post.author && (
-                  <>
-                    <span>•</span>
-                    <span>{post.author}</span>
-                  </>
-                )}
+                <span>•</span>
+                <span>Derya Kendirci</span>
               </div>
 
               <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
                 {post.title}
               </h1>
 
-              {post.excerpt && (
+              {post.summary && (
                 <p className="text-xl text-slate-600 leading-relaxed">
-                  {post.excerpt}
+                  {post.summary}
                 </p>
+              )}
+
+              {post.tags && post.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               )}
             </div>
           </header>
 
           {/* Featured Image */}
-          {post.mainImage && (
+          {post.cover && (
             <div className="mb-12">
               <img
-                src={post.mainImage}
+                src={post.cover}
                 alt={post.title}
                 className="w-full h-64 lg:h-96 object-cover rounded-xl shadow-lg"
               />
@@ -94,21 +104,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* Content */}
           <div className="prose prose-lg max-w-none">
-            {post.body ? (
-              <div className="text-slate-700 leading-relaxed">
-                {/* This would render the Sanity Portable Text content */}
-                <p>Content from Sanity CMS would be rendered here.</p>
-                <p>For now, this is a placeholder. When you set up Sanity Studio, the actual content will appear here.</p>
+            {post.content ? (
+              <div className="text-slate-700 leading-relaxed whitespace-pre-wrap">
+                {post.content}
               </div>
             ) : (
               <div className="text-slate-700 leading-relaxed space-y-6">
                 <p>
-                  This is a sample blog post content. When you connect your Sanity CMS, 
+                  This is a sample blog post content. When you add MDX files to your content/blog folder, 
                   the actual content will be fetched and displayed here.
                 </p>
                 <p>
-                  You can write your blog posts using Sanity Studio, which provides a 
-                  user-friendly interface for content management.
+                  You can write your blog posts using Markdown/MDX format, which provides a 
+                  simple and powerful way to create rich content.
                 </p>
                 <p>
                   The content will be automatically fetched and displayed on your portfolio 
@@ -122,16 +130,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="mt-12 pt-8 border-t border-slate-200">
             <div className="flex items-center gap-4">
               <span className="text-slate-600 font-medium">Share this post:</span>
-              <button
-                onClick={() => {
-                  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${params.slug}`
-                  const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`
-                  window.open(linkedInUrl, '_blank')
-                }}
-                className="text-slate-500 hover:text-blue-600 transition-colors"
-              >
-                Share on LinkedIn
-              </button>
+              <ShareButton slug={params.slug} />
             </div>
           </div>
         </article>

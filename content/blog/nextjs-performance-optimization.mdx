@@ -1,138 +1,178 @@
 ---
-title: "Next.js Performance Optimization: A Comprehensive Guide"
-date: "2024-01-10"
-summary: "Learn how to optimize your Next.js applications for better performance, Core Web Vitals, and user experience."
-cover: "/blog/nextjs-performance.jpg"
-tags: ["Next.js", "Performance", "Web Vitals", "Optimization"]
+title: "Next.js Performance Optimization Techniques"
+date: "2024-03-10"
+summary: "Explore advanced techniques for optimizing Next.js applications. From image optimization to code splitting, learn how to achieve Lighthouse scores above 90 and improve Core Web Vitals."
+tags: ["Next.js", "Performance", "Optimization", "Web Vitals"]
+cover: "/images/blog/nextjs-performance.jpg"
 ---
 
-# Next.js Performance Optimization: A Comprehensive Guide
+# Next.js Performance Optimization Techniques
 
-Performance is crucial for modern web applications. In this comprehensive guide, I'll share proven strategies to optimize Next.js applications for better Core Web Vitals and user experience.
+Performance is crucial for user experience and SEO. In this guide, I'll share proven techniques to optimize your Next.js applications and achieve excellent Core Web Vitals scores.
 
 ## Why Performance Matters
 
-Performance directly impacts user experience, SEO rankings, and conversion rates. Google's Core Web Vitals have made performance a ranking factor, making optimization essential for success.
+- **User Experience**: Faster sites keep users engaged
+- **SEO**: Google considers performance in rankings
+- **Conversion**: Better performance leads to higher conversions
+- **Accessibility**: Faster sites work better on slower connections
 
-## Key Optimization Strategies
+## Core Web Vitals
 
-### 1. Image Optimization
+Google's Core Web Vitals are key metrics for performance:
 
-Next.js provides built-in image optimization through the `next/image` component:
+- **Largest Contentful Paint (LCP)**: < 2.5s
+- **First Input Delay (FID)**: < 100ms
+- **Cumulative Layout Shift (CLS)**: < 0.1
 
-```jsx
-import Image from 'next/image'
+## Image Optimization
 
-export default function OptimizedImage() {
+Next.js Image component provides automatic optimization:
+
+```typescript
+import Image from 'next/image';
+
+export function OptimizedImage() {
   return (
     <Image
       src="/hero-image.jpg"
       alt="Hero image"
       width={1200}
       height={600}
-      priority
+      priority // For above-the-fold images
       placeholder="blur"
       blurDataURL="data:image/jpeg;base64,..."
     />
-  )
+  );
 }
 ```
 
-### 2. Code Splitting
+### Best Practices for Images
 
-Next.js automatically code-splits your application, but you can optimize further:
+1. **Use WebP format** when possible
+2. **Implement lazy loading** for below-the-fold images
+3. **Provide proper dimensions** to prevent layout shift
+4. **Use responsive images** for different screen sizes
 
-```jsx
-import dynamic from 'next/dynamic'
+## Code Splitting
 
+Next.js automatically splits your code, but you can optimize further:
+
+```typescript
+import dynamic from 'next/dynamic';
+
+// Lazy load components
 const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
-  loading: () => <p>Loading...</p>,
+  loading: () => <div>Loading...</div>,
+  ssr: false // If component doesn't need SSR
+});
+
+// Lazy load libraries
+const Chart = dynamic(() => import('react-chartjs-2'), {
   ssr: false
-})
+});
 ```
 
-### 3. Bundle Analysis
+## Bundle Analysis
 
-Use the built-in bundle analyzer to identify optimization opportunities:
+Use `@next/bundle-analyzer` to identify large dependencies:
 
-```json
-{
-  "scripts": {
-    "analyze": "ANALYZE=true next build"
-  }
-}
+```bash
+npm install --save-dev @next/bundle-analyzer
 ```
 
-## Core Web Vitals Optimization
+```javascript
+// next.config.js
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
 
-### Largest Contentful Paint (LCP)
+module.exports = withBundleAnalyzer({
+  // your existing config
+});
+```
 
-- Use `priority` prop for above-the-fold images
-- Implement proper caching strategies
-- Optimize server response times
+## Caching Strategies
 
-### First Input Delay (FID)
+### Static Generation with ISR
 
-- Minimize JavaScript bundle size
-- Use code splitting for non-critical components
-- Implement proper loading states
-
-### Cumulative Layout Shift (CLS)
-
-- Set explicit dimensions for images and videos
-- Avoid inserting content above existing content
-- Use CSS transforms instead of changing layout properties
-
-## Advanced Techniques
-
-### 1. Static Generation
-
-Pre-render pages at build time for better performance:
-
-```jsx
+```typescript
 export async function getStaticProps() {
-  const data = await fetchData()
+  const data = await fetchData();
+  
   return {
     props: { data },
-    revalidate: 60 // ISR: revalidate every 60 seconds
-  }
+    revalidate: 3600, // Revalidate every hour
+  };
 }
 ```
 
-### 2. Incremental Static Regeneration
+### API Route Caching
 
-Update static pages without rebuilding:
+```typescript
+// pages/api/data.ts
+import { NextApiRequest, NextApiResponse } from 'next';
 
-```jsx
-export async function getStaticProps() {
-  return {
-    props: { data },
-    revalidate: 3600 // Revalidate every hour
-  }
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
+  
+  const data = await fetchData();
+  res.json(data);
 }
 ```
 
-### 3. Edge Functions
+## Font Optimization
 
-Deploy functions closer to users for faster response times:
+Optimize web fonts to prevent layout shift:
 
-```jsx
-export const config = {
-  runtime: 'edge'
-}
+```typescript
+import { Inter } from 'next/font/google';
 
-export default function handler(req) {
-  return new Response('Hello from the edge!')
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap', // Prevents layout shift
+  preload: true,
+});
+
+export default function Layout({ children }) {
+  return (
+    <html lang="en" className={inter.className}>
+      <body>{children}</body>
+    </html>
+  );
 }
 ```
 
-## Monitoring and Measurement
+## Database and API Optimization
 
-### 1. Lighthouse CI
+### Connection Pooling
 
-Integrate Lighthouse into your CI/CD pipeline:
+```typescript
+import { Pool } from 'pg';
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  max: 20, // Maximum connections
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+});
+```
+
+### Query Optimization
+
+```typescript
+// Use indexes and limit results
+const posts = await pool.query(
+  'SELECT * FROM posts WHERE published = true ORDER BY created_at DESC LIMIT 10'
+);
+```
+
+## Monitoring Performance
+
+### Lighthouse CI
 
 ```yaml
+# .github/workflows/lighthouse.yml
 name: Lighthouse CI
 on: [push]
 jobs:
@@ -146,22 +186,62 @@ jobs:
           lhci autorun
 ```
 
-### 2. Real User Monitoring
+### Real User Monitoring
 
-Implement RUM to track actual user performance:
-
-```jsx
-// _app.js
+```typescript
+// Track Core Web Vitals
 export function reportWebVitals(metric) {
   if (metric.label === 'web-vital') {
-    console.log(metric)
+    console.log(metric);
     // Send to analytics service
   }
 }
 ```
 
+## Advanced Techniques
+
+### Edge Runtime
+
+```typescript
+export const runtime = 'edge';
+
+export async function GET() {
+  return new Response('Hello from Edge Runtime');
+}
+```
+
+### Streaming SSR
+
+```typescript
+import { Suspense } from 'react';
+
+export default function Page() {
+  return (
+    <div>
+      <h1>My Page</h1>
+      <Suspense fallback={<div>Loading...</div>}>
+        <SlowComponent />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+## Performance Checklist
+
+- [ ] Optimize images with Next.js Image component
+- [ ] Implement proper caching strategies
+- [ ] Use code splitting for large components
+- [ ] Optimize fonts with display: swap
+- [ ] Monitor Core Web Vitals
+- [ ] Use bundle analyzer to identify large dependencies
+- [ ] Implement proper error boundaries
+- [ ] Use Edge Runtime for faster responses
+- [ ] Optimize database queries
+- [ ] Implement proper loading states
+
 ## Conclusion
 
-Performance optimization is an ongoing process. Start with the basics, measure your improvements, and iterate based on real user data. The key is to balance performance with functionality and maintainability.
+Performance optimization is an ongoing process. Start with the basics like image optimization and code splitting, then move to more advanced techniques. Always measure the impact of your optimizations using tools like Lighthouse and Core Web Vitals.
 
-Remember: "Premature optimization is the root of all evil." Profile first, optimize second. 
+Remember: The goal is not just to achieve good scores, but to provide a better user experience for your visitors. 
