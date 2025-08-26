@@ -2,19 +2,22 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 export default function AdminPage() {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   useEffect(() => {
     // Admin erişim kontrolü
     const checkAccess = () => {
       const isDev = process.env.NODE_ENV === 'development'
       const hasAdminFlag = process.env.NEXT_PUBLIC_SHOW_ADMIN === 'true'
-      const hasSecretParam = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('secret') === 'admin123'
+      const hasSecretParam = searchParams.get('secret') === 'admin123'
+      
+      console.log('Access check:', { isDev, hasAdminFlag, hasSecretParam })
       
       if (isDev || hasAdminFlag || hasSecretParam) {
         setIsAuthorized(true)
@@ -26,7 +29,7 @@ export default function AdminPage() {
     }
 
     checkAccess()
-  }, [router])
+  }, [router, searchParams])
 
   if (isLoading) {
     return (
@@ -40,7 +43,20 @@ export default function AdminPage() {
   }
 
   if (!isAuthorized) {
-    return null // Router zaten yönlendirecek
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">Access Denied</h1>
+          <p className="text-slate-600 mb-4">You don't have permission to access this page.</p>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all duration-300"
+          >
+            Back to Home
+          </Link>
+        </div>
+      </div>
+    )
   }
 
   return (
