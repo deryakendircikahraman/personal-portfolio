@@ -1,9 +1,93 @@
+'use client'
+
 import Link from 'next/link'
-import { getBlogPosts } from '@/lib/blog'
+import { useEffect, useState } from 'react'
+import { BlogPost } from '@/lib/blog'
+import { getMediumPosts } from '@/lib/medium'
 import { ShareButton } from '@/components/ShareButton'
 
 export default function BlogPage() {
-  const posts = getBlogPosts()
+  const [posts, setPosts] = useState<BlogPost[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        // Medium'dan blog yazılarını çek
+        const mediumPosts = await getMediumPosts('deryakendircikahraman') // Medium username'inizi buraya yazın
+        
+        if (mediumPosts.length > 0) {
+          setPosts(mediumPosts)
+        } else {
+          // Fallback veriler
+          setPosts([
+            {
+              slug: "building-ai-powered-apps",
+              title: "Building AI-Powered Applications with Next.js",
+              date: "2024-03-15",
+              summary: "Learn how to integrate OpenAI, Pinecone, and other AI services into your Next.js applications.",
+              tags: ["AI", "Next.js", "OpenAI"],
+              content: "Sample content for AI-powered applications blog post.",
+              externalUrl: "https://medium.com/@deryakendircikahraman/building-ai-powered-applications"
+            },
+            {
+              slug: "nextjs-performance-optimization",
+              title: "Next.js Performance Optimization Techniques",
+              date: "2024-03-10",
+              summary: "Explore advanced techniques for optimizing Next.js applications.",
+              tags: ["Next.js", "Performance", "Optimization"],
+              content: "Sample content for Next.js performance optimization blog post.",
+              externalUrl: "https://medium.com/@deryakendircikahraman/nextjs-performance-optimization"
+            }
+          ])
+        }
+      } catch (error) {
+        console.error('Error fetching blog posts:', error)
+        // Fallback veriler
+        setPosts([
+          {
+            slug: "building-ai-powered-apps",
+            title: "Building AI-Powered Applications with Next.js",
+            date: "2024-03-15",
+            summary: "Learn how to integrate OpenAI, Pinecone, and other AI services into your Next.js applications.",
+            tags: ["AI", "Next.js", "OpenAI"],
+            content: "Sample content for AI-powered applications blog post.",
+            externalUrl: "https://medium.com/@deryakendircikahraman/building-ai-powered-applications"
+          },
+          {
+            slug: "nextjs-performance-optimization",
+            title: "Next.js Performance Optimization Techniques",
+            date: "2024-03-10",
+            summary: "Explore advanced techniques for optimizing Next.js applications.",
+            tags: ["Next.js", "Performance", "Optimization"],
+            content: "Sample content for Next.js performance optimization blog post.",
+            externalUrl: "https://medium.com/@deryakendircikahraman/nextjs-performance-optimization"
+          }
+        ])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchPosts()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white">
+        <div className="container-custom py-16">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-slate-900 mb-8">Blog</h1>
+            <div className="animate-pulse space-y-6">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="bg-slate-100 h-32 rounded-lg"></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -28,13 +112,19 @@ export default function BlogPage() {
                     })}
                   </time>
                   <span>•</span>
-                  <span>Derya Kendirci</span>
+                  <span>{post.author || 'Derya Kendirci'}</span>
                 </div>
 
                 <h2 className="text-2xl font-bold text-slate-900 hover:text-blue-600 transition-colors">
-                  <Link href={`/blog/${post.slug}`}>
-                    {post.title}
-                  </Link>
+                  {post.externalUrl ? (
+                    <a href={post.externalUrl} target="_blank" rel="noopener noreferrer">
+                      {post.title}
+                    </a>
+                  ) : (
+                    <Link href={`/blog/${post.slug}`}>
+                      {post.title}
+                    </Link>
+                  )}
                 </h2>
 
                 <p className="text-slate-600 leading-relaxed">
@@ -55,12 +145,23 @@ export default function BlogPage() {
                 )}
 
                 <div className="flex items-center gap-4 pt-4">
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    className="text-blue-600 hover:text-blue-700 font-medium"
-                  >
-                    Read More →
-                  </Link>
+                  {post.externalUrl ? (
+                    <a
+                      href={post.externalUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-700 font-medium"
+                    >
+                      Read on Medium →
+                    </a>
+                  ) : (
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      className="text-blue-600 hover:text-blue-700 font-medium"
+                    >
+                      Read More →
+                    </Link>
+                  )}
                   <ShareButton slug={post.slug} />
                 </div>
               </div>

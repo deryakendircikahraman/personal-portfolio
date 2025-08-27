@@ -12,6 +12,8 @@ export interface BlogPost {
   cover?: string
   tags?: string[]
   content: string
+  externalUrl?: string
+  author?: string
 }
 
 export function getBlogPosts(): BlogPost[] {

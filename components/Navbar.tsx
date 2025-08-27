@@ -5,9 +5,6 @@ import { useState } from 'react'
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  
-  // Admin linkini sadece development modunda veya özel environment variable ile göster
-  const showAdmin = process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_SHOW_ADMIN === 'true'
 
   return (
     <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
@@ -32,11 +29,6 @@ export function Navbar() {
             <Link href="/resume" className="text-sm text-slate-700 hover:text-slate-900 font-medium transition-colors">
               Resume
             </Link>
-            {showAdmin && (
-              <Link href="/admin" className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors">
-                Admin
-              </Link>
-            )}
           </div>
 
           {/* Mobile menu button */}
@@ -86,15 +78,6 @@ export function Navbar() {
               >
                 Resume
               </Link>
-              {showAdmin && (
-                <Link 
-                  href="/admin" 
-                  className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Admin
-                </Link>
-              )}
             </div>
           </div>
         )}
