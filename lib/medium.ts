@@ -14,12 +14,21 @@ export async function getMediumPosts(username: string): Promise<BlogPost[]> {
     // Medium RSS feed URL'i
     const rssUrl = `https://medium.com/feed/@${username}`
     
+    console.log('Fetching Medium RSS feed:', rssUrl)
+    
     // RSS feed'i fetch et
     const response = await fetch(rssUrl)
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    
     const xmlText = await response.text()
+    console.log('RSS feed fetched successfully, length:', xmlText.length)
     
     // XML'i parse et (basit regex ile)
     const posts = parseRSSFeed(xmlText)
+    console.log('Parsed posts:', posts.length)
     
     // BlogPost formatına dönüştür
     return posts.map(post => ({

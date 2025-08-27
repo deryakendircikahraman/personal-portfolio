@@ -14,7 +14,7 @@ export default function BlogPage() {
     async function fetchPosts() {
       try {
         // Medium'dan blog yazılarını çek
-        const mediumPosts = await getMediumPosts('deryakendircikahraman') // Medium username'inizi buraya yazın
+        const mediumPosts = await getMediumPosts('deryakendircikahraman')
         
         if (mediumPosts.length > 0) {
           setPosts(mediumPosts)
