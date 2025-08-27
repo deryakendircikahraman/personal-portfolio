@@ -57,28 +57,34 @@ function parseRSSFeed(xmlText: string): MediumPost[] {
   while ((match = itemRegex.exec(xmlText)) !== null) {
     const itemContent = match[1]
     
-    const title = extractTag(itemContent, 'title')
-    const link = extractTag(itemContent, 'link')
-    const pubDate = extractTag(itemContent, 'pubDate')
-    const content = extractTag(itemContent, 'content:encoded') || extractTag(itemContent, 'description')
-    const author = extractTag(itemContent, 'dc:creator') || extractTag(itemContent, 'author')
+    const rawTitle = extractTag(itemContent, 'title')
+    const rawLink = extractTag(itemContent, 'link')
+    const rawPubDate = extractTag(itemContent, 'pubDate')
+    const rawContent = extractTag(itemContent, 'content:encoded') || extractTag(itemContent, 'description')
+    const rawAuthor = extractTag(itemContent, 'dc:creator') || extractTag(itemContent, 'author')
     
     // Categories/tags çıkar
     const categories: string[] = []
-    const categoryRegex = /<category[^>]*>([^<]+)<\/category>/g
+    const categoryRegex = /<category[^>]*>([\s\S]*?)<\/category>/g
     let categoryMatch
     while ((categoryMatch = categoryRegex.exec(itemContent)) !== null) {
-      categories.push(categoryMatch[1])
+      categories.push(stripCdata(decodeXMLEntities(categoryMatch[1])).trim())
     }
     
+    const title = stripCdata(decodeXMLEntities(rawTitle))
+    const link = stripCdata(decodeXMLEntities(rawLink))
+    const pubDate = stripCdata(decodeXMLEntities(rawPubDate))
+    const content = stripCdata(decodeXMLEntities(rawContent))
+    const author = stripCdata(decodeXMLEntities(rawAuthor))
+
     if (title && link) {
       posts.push({
-        title: decodeXMLEntities(title),
-        link: decodeXMLEntities(link),
-        pubDate: decodeXMLEntities(pubDate),
-        content: decodeXMLEntities(content),
+        title,
+        link,
+        pubDate,
+        content,
         categories,
-        author: decodeXMLEntities(author)
+        author
       })
     }
   }
@@ -92,7 +98,17 @@ function extractTag(content: string, tagName: string): string {
   return match ? match[1].trim() : ''
 }
 
+function stripCdata(value: string): string {
+  if (!value) return value
+  // Remove CDATA wrappers and collapse whitespace
+  return value
+    .replace(/<!\[CDATA\[/g, '')
+    .replace(/\]\]>/g, '')
+    .trim()
+}
+
 function decodeXMLEntities(text: string): string {
+  if (!text) return text
   return text
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
@@ -104,13 +120,13 @@ function decodeXMLEntities(text: string): string {
 
 function extractSummary(content: string): string {
   // HTML tag'lerini kaldır
-  const textContent = content.replace(/<[^>]*>/g, '')
+  const textContent = (content || '').replace(/<[^>]*>/g, '')
   
   // İlk 200 karakteri al ve cümle sonunda kes
   const summary = textContent.substring(0, 200)
   const lastPeriod = summary.lastIndexOf('.')
   
-  return lastPeriod > 0 ? summary.substring(0, lastPeriod + 1) : summary + '...'
+  return lastPeriod > 0 ? summary.substring(0, lastPeriod + 1) : summary + (textContent.length > 200 ? '...' : '')
 }
 
 function generateSlug(title: string): string {

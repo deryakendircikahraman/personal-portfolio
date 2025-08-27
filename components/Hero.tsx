@@ -27,11 +27,11 @@ export function Hero() {
             Full-Stack Software Engineer
           </h2>
 
-          <p className="text-base lg:text-lg text-slate-600 max-w-4xl leading-relaxed animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+          <p className="text-base lg:text-lg text-slate-600 max-w-2xl leading-relaxed animate-fade-in-up" style={{animationDelay: '0.2s'}}>
             I'm a full stack software engineer who turns messy ideas into simple, fast products for real users. I spent over six years in banking and fintech building C# and .NET with XAML and React applications, designing REST APIs, and working across microservices.
           </p>
 
-          <p className="text-base lg:text-lg text-slate-600 max-w-4xl leading-relaxed animate-fade-in-up" style={{animationDelay: '0.25s'}}>
+          <p className="text-base lg:text-lg text-slate-600 max-w-2xl leading-relaxed animate-fade-in-up" style={{animationDelay: '0.25s'}}>
             These days I'm sharpening Python, React, and TypeScript and I build practical AI features such as retrieval augmented generation search and voice and chat assistants with FastAPI or Node on the backend. I care about clean code, accessible interfaces, performance, and shipping measurable improvements.
           </p>
 

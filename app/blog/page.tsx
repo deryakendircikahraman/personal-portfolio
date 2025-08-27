@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { BlogPost } from '@/lib/blog'
-import { getMediumPosts } from '@/lib/medium'
 import { ShareButton } from '@/components/ShareButton'
 
 export default function BlogPage() {
@@ -13,8 +12,10 @@ export default function BlogPage() {
   useEffect(() => {
     async function fetchPosts() {
       try {
-        // Medium'dan blog yazılarını çek
-        const mediumPosts = await getMediumPosts('deryakendircikahraman')
+        // API üzerinden Medium'dan blog yazılarını çek
+        const res = await fetch('/api/medium?username=deryakendircikahraman', { cache: 'no-store' })
+        const data = await res.json()
+        const mediumPosts = data.posts || []
         
         if (mediumPosts.length > 0) {
           setPosts(mediumPosts)

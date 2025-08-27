@@ -4,7 +4,6 @@ import { BlogCard } from './BlogCard'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { BlogPost } from '@/lib/blog'
-import { getMediumPosts } from '@/lib/medium'
 
 export function BlogSection() {
   const [posts, setPosts] = useState<BlogPost[]>([])
@@ -13,8 +12,10 @@ export function BlogSection() {
   useEffect(() => {
     async function fetchPosts() {
       try {
-        // Medium'dan blog yazılarını çek
-        const mediumPosts = await getMediumPosts('deryakendircikahraman')
+        // API üzerinden Medium'dan blog yazılarını çek
+        const res = await fetch('/api/medium?username=deryakendircikahraman', { cache: 'no-store' })
+        const data = await res.json()
+        const mediumPosts = data.posts || []
         
         if (mediumPosts.length > 0) {
           setPosts(mediumPosts.slice(0, 3))
